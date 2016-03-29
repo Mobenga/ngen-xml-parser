@@ -1,6 +1,3 @@
-<!-- NGenExternalAPI -->
-<!-- toc -->
-
 # NGen XML Parser
 
 ## Introduction
@@ -167,7 +164,7 @@ The desired result is a list over all events where the information about sport a
 
 The table below describes a typical XML structure (in the left column) that is built into a Java data structure in form of a tree. The Java data structure and the XML structure is shown in the image below. In the table below the image, each row in the table describes a single step in the XML parsing process. Walk through the table to follow the process step by step as the StAX parser works itself tag by tag in the XML. (More elaborate examples including source code is available in Example 2-5 below.)
 
-![](../../doc/images/ngen-xml-parser.png)
+![](images/ngen-xml-parser.png)
 
 XML tag | Action | New Java Object | Object Branch
 --- | --- | --- | ---
