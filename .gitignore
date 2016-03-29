@@ -1,0 +1,38 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+#Intellij Idea
+.idea
+*.iml
+*/target
+target/
+
+#Vagrant
+.vagrant/
+
+node_modules/
+bower_components/
+npm-debug.log
+build/
+builds/
+coverage/
+node/
+
+.DS_Store
+*.log
+
+# JRebel #
+rebel.xml
+
+# Tern
+.tern-port
+loki.csv
