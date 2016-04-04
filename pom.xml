@@ -7,6 +7,7 @@
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>An XML parser engineered for n-to-m mapping from XML(s) to Java Object(s).</description>
+    <url>https://github.com/Mobenga/ngen-xml-parser</url>
 
     <licenses>
         <license>
@@ -31,7 +32,7 @@
     </scm>
 
     <properties>
-        <test.coverage.ratio>0.75</test.coverage.ratio>
+        <test.coverage.ratio>0.8</test.coverage.ratio>
         <skipTests>false</skipTests>
         <source.directory>src/main/java</source.directory>
     </properties>
@@ -40,6 +41,11 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>1.7.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
             <version>1.7.20</version>
         </dependency>
         <dependency>

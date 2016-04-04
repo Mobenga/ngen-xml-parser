@@ -27,6 +27,17 @@ The Object Branch is simply a map of unique objects. It is not possible for two 
 
 When doing a _1_-to-_m_ parsing, one document parser may push several result objects to the Object Branch. these result Objects **are not connected** and thus not part of a common tree, but totally independent. After the parsing is done, all objects pushed to the Object Branch are available as a part of the result using the documentParser.getResult(CLASS) API invocation.
 
+## Installation
+
+NGen XML Parser is available at Maven Central. Maven users can include NGen XML Parser as a dependency by adding this to the project pom.xml file:
+
+    <dependencies>
+        <dependency>
+          <groupId>com.mobenga.ngen.xml</groupId>
+          <artifactId>ngen-xml-parser</artifactId>
+          <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 
 ## NGen XML Parser Code Examples
 
