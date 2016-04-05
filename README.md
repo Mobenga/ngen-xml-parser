@@ -246,7 +246,7 @@ XML Line | NGen XML Parser Event | Java Object Event | Object Branch Content Aft
 -"- | Attribute Mappings | Get data storage from obj branch <br/> myDataStorage.setSport(); | ProprietaryDataStorage().class
 &lt;event id="1" name ="Foo"&gt; | Start Processor | Get data storage from obj branch: <br/> new Event() <br/> event.setSport(myDataStorage.getSport()) | ProprietaryDataStorage().class <br/> Event.class (the new event)
 -"- | Attribute Mappings | Get event from obj branch <br/> event.setId("1") <br/> event.setName("Foo") | ProprietaryDataStorage().class <br/> Event.class
--"- | &lt;market id="1" name="Mkt Foo"&gt; | Start Processor | new Market() | ProprietaryDataStorage().class <br/> Event.class <br/> Market.class (the new market)
+&lt;market id="1" name="Mkt Foo"&gt; | Start Processor | new Market() | ProprietaryDataStorage().class <br/> Event.class <br/> Market.class (the new market)
 -"- | Attribute Mappings | market.setId("1") <br/> market.setName("Mkt Foo") | ProprietaryDataStorage().class <br/> Event.class <br/> Market.class
 &lt;/market&gt; | End Processor | Get event from obj branch <br/> Pop market from obj branch <br/> event.getMarkets.add(market) | ProprietaryDataStorage().class <br/> Event.class
 &lt;/event&gt; | End Processor | Do nothing | ProprietaryDataStorage().class <br/> Event.class
