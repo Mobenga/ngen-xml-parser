@@ -116,7 +116,7 @@ This example maps two different XMLs to a common Java object. The Two different 
         // Get current Event Data Component and add data from this Content API call
         Event event = getCurrentDataForEventOrCreateNewObject(id);
 
-        ParserI
+        // Provide current Event data to the XML Parser
         ProtectedClassMap objectBranch = new ProtectedClassMap(Event.class, event);
 
         // Setup the parser for the expected data - Event data
@@ -130,7 +130,7 @@ This example maps two different XMLs to a common Java object. The Two different 
         // Get current Event Data Component and add data from this Content API call
         Event event = getCurrentDataForEventOrCreateNewObject(id);
 
-        ParserI
+        // Provide current Event data to the XML Parser
         ProtectedClassMap objectBranch = new ProtectedClassMap(Event.class, event);
 
         // Setup the parser for the expected data - Event data
