@@ -15,7 +15,7 @@ public class MappingUtil {
     /**
      * This method is provided to an {@link com.mobenga.ngen.xml.parser.AttributeMapping#AttributeMapping(Class, BiConsumer, Function, String...) AttributeMapping}
      * as a mapping method for a single xml attribute to a Boolean Java object. The XML attribute value "YES", "Y" or "TRUE" (case ignored) will be nmapped to true.
-     * This method is invoked by the NGen XML XmlParserI engine.
+     * This method is invoked by the NGen XML Parser engine.
      * @param values Values as a map
      * @return boolean value from string representation
      */
@@ -45,7 +45,7 @@ public class MappingUtil {
 
     /**
      * This method is provided to an {@link com.mobenga.ngen.xml.parser.ElementTextMapping#ElementTextMapping(Class, BiConsumer, Function) ElementTextMapping}
-     * as a mapping method for a a xml content to a String Java object. This dummy function if used since the NGen XML XmlParserI engine requires a mapping function.
+     * as a mapping method for a a xml content to a String Java object. This dummy function if used since the NGen XML Parser engine requires a mapping function.
      * @param value Text Element Value
      * @return Text Element Value
      * */
