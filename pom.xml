@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mobenga.ngen.xml</groupId>
     <artifactId>ngen-xml-parser</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>An XML parser engineered for n-to-m mapping from XML(s) to Java Object(s).</description>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.20</version>
+            <version>1.7.21</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

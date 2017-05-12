@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * The Attribute Mapping is used to describe how to map an XML Element attribute
@@ -19,10 +20,11 @@ import java.util.function.Function;
 
 public class AttributeMapping<T, K> {
     private final Class<T> resultingFieldType;
+    private final Predicate<Object> objectBranchExtractor;
     private final Map<String, String> values;
     private BiConsumer<T, K> setter;
     private Function<Map<String, String>, K> mapper = null;
-    private BiFunction<Map<String, String>, ProtectedClassMap, K> biMapper = null;
+    private BiFunction<Map<String, String>, BranchContext, K> biMapper = null;
 
     /**
      * Constructs an Attribute Mapping for a single attribute
@@ -47,10 +49,37 @@ public class AttributeMapping<T, K> {
         this.setter = setter;
         this.mapper = mapper;
         this.resultingFieldType = resultingFieldType;
+        this.objectBranchExtractor = null;
     }
 
-    void apply(ProtectedClassMap objectBranch, Class<T> clazz) {
-        T obj = objectBranch.getInstance(clazz);
+    /**
+     * Constructs an Attribute Mapping for a single attribute
+     * @param objectBranchPredicate predicate to find object in objectBranch collection
+     * @param setter Setter method on the class described as a BiConsumer.
+     *               (A non static method reference executed with a single argument and no return value.)
+     * @param mapper Mapper method used to map the XML string to desired java type.
+     *               (A static method reference executed with a single argument and a return value.)
+     *               The most common data mappers are available in {@link  com.mobenga.ngen.xml.util.MappingUtil}
+     *               By providing several xml attributes, them mapper will be invoked with several inputs.
+     *               Several attributes are provided by listing several fields as the last parameters.
+     *               This is needed when a java attribute is the result of a mapping from several input values.
+     * @param fields One or several attribute name whose value shall be passed to the Mapper invocation.
+     *               If no attribute names are provided the mapper and the setter will not be executed.
+     *               To set values that does not depend on an attribute, use the Start or End Processor callback.
+     */
+    public  AttributeMapping(Predicate<Object> objectBranchPredicate, BiConsumer<T, K> setter, Function<Map<String, String>, K> mapper, String... fields) {
+        values = new HashMap<>(fields.length);
+        for (String field : fields) {
+            values.put(field, null);
+        }
+        this.setter = setter;
+        this.mapper = mapper;
+        this.resultingFieldType = null;
+        this.objectBranchExtractor = objectBranchPredicate;
+    }
+
+    void apply(BranchContext objectBranch, AttributeMapping<T, ?> m) {
+        T obj = (m.getResultingFieldType() != null) ? objectBranch.getInstance(m.getResultingFieldType()) : objectBranch.getInstance(m.getObjectBranchExtractor());
         if (null != obj && !values.isEmpty()) {
             K mappedValue = null;
             if (null != mapper) {
@@ -66,7 +95,7 @@ public class AttributeMapping<T, K> {
         values.put(key, value);
     }
 
-    void setBiMapper(BiFunction<Map<String, String>, ProtectedClassMap, K> biMapper) {
+    void setBiMapper(BiFunction<Map<String, String>, BranchContext, K> biMapper) {
         if (null != mapper) {
             throw new IllegalStateException("Use either of the mappers");
         }
@@ -79,5 +108,9 @@ public class AttributeMapping<T, K> {
 
     Class<T> getResultingFieldType() {
         return resultingFieldType;
+    }
+
+    public Predicate<Object> getObjectBranchExtractor() {
+        return objectBranchExtractor;
     }
 }
