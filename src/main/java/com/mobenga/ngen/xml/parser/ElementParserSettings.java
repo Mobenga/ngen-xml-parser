@@ -19,10 +19,10 @@ public class ElementParserSettings {
     private List<AttributeMapping> attributeMappings;
     private List<ElementTextMapping> elementTextMappings;
     private Map<String, ElementParserSettings> subElementParsers;
-    private Consumer<ProtectedClassMap> elementStartProcessor;
-    private BiConsumer<ProtectedClassMap, String> elementStartProcessorBi;
+    private Consumer<BranchContext> elementStartProcessor;
+    private BiConsumer<BranchContext, String> elementStartProcessorBi;
     private String elementStartProcessorBiAttributeName;
-    private Consumer<ProtectedClassMap> elementEndProcessor;
+    private Consumer<BranchContext> elementEndProcessor;
 
     /**
      * Name of the XML Element that this setting must be applied to.
@@ -63,7 +63,7 @@ public class ElementParserSettings {
             this.subElementParsers = new HashMap<>();
         } else {
             this.subElementParsers = new HashMap<>(subElementParsers.length);
-            Arrays.asList(subElementParsers).stream().forEach(m -> this.subElementParsers.put(m.getElementName(), m));
+            Arrays.stream(subElementParsers).forEach(m -> this.subElementParsers.put(m.getElementName(), m));
         }
     }
 
@@ -103,11 +103,11 @@ public class ElementParserSettings {
         }
     }
 
-    Consumer<ProtectedClassMap> getElementStartProcessor() {
+    Consumer<BranchContext> getElementStartProcessor() {
         return elementStartProcessor;
     }
 
-    BiConsumer<ProtectedClassMap, String> getElementStartProcessorBi() {
+    BiConsumer<BranchContext, String> getElementStartProcessorBi() {
         return elementStartProcessorBi;
     }
 
@@ -122,7 +122,7 @@ public class ElementParserSettings {
      *
      * @param elementStartProcessor A Consumer method to be invoked. (See {@code java.util.function.Consumer})
      */
-    public void setElementStartProcessor(Consumer<ProtectedClassMap> elementStartProcessor) {
+    public void setElementStartProcessor(Consumer<BranchContext> elementStartProcessor) {
         this.elementStartProcessor = elementStartProcessor;
         this.elementStartProcessorBi = null;
     }
@@ -135,13 +135,13 @@ public class ElementParserSettings {
      * @param elementStartProcessor A BiConsumer method to be invoked. (See {@code java.util.function.BiConsumer})
      * @param field An attribute name whose value shall be passed to the BiConsumer invocation.
      */
-    public void setElementStartProcessor(BiConsumer<ProtectedClassMap, String> elementStartProcessor, String field) {
+    public void setElementStartProcessor(BiConsumer<BranchContext, String> elementStartProcessor, String field) {
         this.elementStartProcessorBi = elementStartProcessor;
         this.elementStartProcessorBiAttributeName = field;
         this.elementStartProcessor = null;
     }
 
-    Consumer<ProtectedClassMap> getElementEndProcessor() {
+    Consumer<BranchContext> getElementEndProcessor() {
         return elementEndProcessor;
     }
 
@@ -152,7 +152,7 @@ public class ElementParserSettings {
      *
      * @param elementEndProcessor A Consumer method to be invoked. (See {@code java.util.function.Consumer})
      */
-    public void setElementEndProcessor(Consumer<ProtectedClassMap> elementEndProcessor) {
+    public void setElementEndProcessor(Consumer<BranchContext> elementEndProcessor) {
         this.elementEndProcessor = elementEndProcessor;
     }
 }

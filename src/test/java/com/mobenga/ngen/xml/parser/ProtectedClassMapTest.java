@@ -7,18 +7,18 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-public class protectedClassMapTest {
+public class ProtectedClassMapTest {
 
     @Test
     public void testProtectedClassMapInit() throws IOException, XMLStreamException {
-        ProtectedClassMap pcm = new ProtectedClassMap(String.class, "TestStr");
+        BranchContext pcm = new ProtectedClassMap(String.class, "TestStr");
         assertEquals("TestStr", pcm.getInstance(String.class));
         assertNull(pcm.getInstance(Integer.class));
     }
 
     @Test
     public void testProtectedClassMapInsert() throws IOException, XMLStreamException {
-        ProtectedClassMap pcm = new ProtectedClassMap();
+        BranchContext pcm = new ProtectedClassMap();
         pcm.put(String.class, "TestStr");
         assertEquals("TestStr", pcm.getInstance(String.class));
         pcm.put(Integer.class, 2);
@@ -27,7 +27,7 @@ public class protectedClassMapTest {
 
     @Test
     public void testProtectedClassMapDuplicate() throws IOException, XMLStreamException {
-        ProtectedClassMap pcm = new ProtectedClassMap();
+        BranchContext pcm = new ProtectedClassMap();
         pcm.put(String.class, "TestStr");
         assertEquals("TestStr", pcm.getInstance(String.class));
         try {
@@ -43,7 +43,7 @@ public class protectedClassMapTest {
 
     @Test
     public void testProtectedClassMapPop() throws IOException, XMLStreamException {
-        ProtectedClassMap pcm = new ProtectedClassMap();
+        BranchContext pcm = new ProtectedClassMap();
         pcm.put(String.class, "TestStr");
         assertEquals("TestStr", pcm.pop(String.class));
         assertNull(pcm.getInstance(String.class));

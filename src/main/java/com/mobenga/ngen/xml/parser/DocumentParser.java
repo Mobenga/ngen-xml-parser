@@ -7,7 +7,10 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -16,12 +19,11 @@ import java.util.function.Consumer;
  * It maps XML tags directly to an arbitrary java object structure that
  * does not necessarily have to reflect the XML document structure.
  * More information including examples are found at Confluence.
- *
  */
-public class DocumentParser  {
+public class DocumentParser {
     private static final Logger log = LoggerFactory.getLogger(DocumentParser.class);
     private final Deque<ElementParserSettings> documentParserStack = new ArrayDeque<>();
-    private final ProtectedClassMap currentElementBranch;
+    private final BranchContext currentElementBranch;
 
     /**
      * Create a new XML document parser with the provided mappings
@@ -34,14 +36,14 @@ public class DocumentParser  {
 
     /**
      * Create a new XML document parser with the provided mappings, starting of with the
-     * provided {@link com.mobenga.ngen.xml.parser.ProtectedClassMap object branch}. By providing an existing object branch, it is possible to
+     * provided {@link com.mobenga.ngen.xml.parser.BranchContext object branch}. By providing an existing object branch, it is possible to
      * parse an XML and map it into an existing java object structure.
      *
-     * @param mappings ElementParserSettings for the top XML element.
+     * @param mappings     ElementParserSettings for the top XML element.
      * @param objectBranch Object branch typically pre loaded with the top element in order to add information to existing java objects.
-     * @see ProtectedClassMap
+     * @see BranchContext
      */
-    public DocumentParser(Mappings mappings, ProtectedClassMap objectBranch) {
+    public DocumentParser(Mappings mappings, BranchContext objectBranch) {
         this.currentElementBranch = objectBranch;
         if (null == mappings || null == mappings.getSettings()) {
             throw new IllegalArgumentException("Incorrect Mappings was provided to the " + getClass());
@@ -68,11 +70,11 @@ public class DocumentParser  {
     }
 
     private void executeStartProcessor(StartElement startElement) {
-        Consumer<ProtectedClassMap> startProcessor = documentParserStack.peek().getElementStartProcessor();
+        Consumer<BranchContext> startProcessor = documentParserStack.peek().getElementStartProcessor();
         if (startProcessor != null) {
             startProcessor.accept(this.currentElementBranch);
         } else {
-            BiConsumer<ProtectedClassMap, String> startProcessorBi = documentParserStack.peek().getElementStartProcessorBi();
+            BiConsumer<BranchContext, String> startProcessorBi = documentParserStack.peek().getElementStartProcessorBi();
             String field = documentParserStack.peek().getElementStartProcessorBiAttributeName();
             if (null != startProcessorBi && null != field) {
                 String attribute = getAttribute(field, startElement);
@@ -97,7 +99,7 @@ public class DocumentParser  {
     private void parseAttributes(StartElement startElement) {
         List<AttributeMapping> mappings = documentParserStack.peek().getAttributeMappings();
         if (null != mappings) {
-            for (AttributeMapping<?,?> m : mappings) {
+            for (AttributeMapping<?, ?> m : mappings) {
                 applyMapping(startElement, m);
             }
         }
@@ -108,11 +110,8 @@ public class DocumentParser  {
             for (String key : m.getKeys()) {
                 m.setValue(key, getAttribute(key, startElement));
             }
-            if (log.isWarnEnabled() && null == this.currentElementBranch.getInstance(m.getResultingFieldType())) {
-                log.warn("No object of required type {} is created and some attribute depending on xml attribute \"{}\" will be dismissed.", m.getResultingFieldType().getName(), m.getKeys().toArray()[0].toString());
-            }
         }
-        m.apply(this.currentElementBranch, m.getResultingFieldType());
+        m.apply(this.currentElementBranch, m);
     }
 
     private static String getAttribute(String qName, StartElement startElement) {
@@ -121,11 +120,11 @@ public class DocumentParser  {
     }
 
     void parseEndElement(XMLEvent xmlEvent) {
-        String elementName =  xmlEvent.asEndElement().getName().getLocalPart();
+        String elementName = xmlEvent.asEndElement().getName().getLocalPart();
         log.debug("parseEndElement({})", elementName);
 
         if (elementName.equals(documentParserStack.peek().getElementName())) {
-            Consumer<ProtectedClassMap> endProcessor = documentParserStack.pop().getElementEndProcessor();
+            Consumer<BranchContext> endProcessor = documentParserStack.pop().getElementEndProcessor();
             if (endProcessor != null) {
                 endProcessor.accept(this.currentElementBranch);
             }
@@ -151,7 +150,7 @@ public class DocumentParser  {
         }
     }
 
-    private <T,K> void applyElementTextMapping(String data, ElementTextMapping<T, K> m) {
+    private <T, K> void applyElementTextMapping(String data, ElementTextMapping<T, K> m) {
         m.setValue(data);
         if (log.isWarnEnabled() && null == this.currentElementBranch.getInstance(m.getType())) {
             log.warn("No object of required type {} is created and setting this content is depending on that object. Content data: \"{}\" will be dismissed.", m.getType().getName(), trimForLogging(data));

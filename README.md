@@ -1,5 +1,8 @@
 # NGen XML Parser
 
+##Versions
+* 1.0.1 Added support for arbitrary entity mappings, e.g. instances do not require unique object class in branch
+
 ## Introduction
 
 The NGen XML Parser is a generic XML parser engineered for n-to-m mapping from XML(s) to Java Object(s). It is designed to efficiently map different XML's with different schema from different data sources to a common Java data model. It is based upon a StAX parser library and it requires Java 8 or greater. It is particularly competitive during the following preconditions.
