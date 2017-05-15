@@ -34,6 +34,7 @@
     <properties>
         <test.coverage.ratio>0.8</test.coverage.ratio>
         <skipTests>false</skipTests>
+        <skip.sign>false</skip.sign>
         <source.directory>src/main/java</source.directory>
     </properties>
 
@@ -132,6 +133,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
+                <configuration>
+                    <skip>${skip.sign}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
