@@ -1,5 +1,8 @@
 # NGen XML Parser
 
+##Versions
+* 1.0.1 Added support for arbitrary entity mappings, e.g. instances do not require unique object class in branch
+
 ## Introduction
 
 The NGen XML Parser is a generic XML parser engineered for n-to-m mapping from XML(s) to Java Object(s). It is designed to efficiently map different XML's with different schema from different data sources to a common Java data model. It is based upon a StAX parser library and it requires Java 8 or greater. It is particularly competitive during the following preconditions.
@@ -246,7 +249,7 @@ XML Line | NGen XML Parser Event | Java Object Event | Object Branch Content Aft
 -"- | Attribute Mappings | Get data storage from obj branch <br/> myDataStorage.setSport(); | ProprietaryDataStorage().class
 &lt;event id="1" name ="Foo"&gt; | Start Processor | Get data storage from obj branch: <br/> new Event() <br/> event.setSport(myDataStorage.getSport()) | ProprietaryDataStorage().class <br/> Event.class (the new event)
 -"- | Attribute Mappings | Get event from obj branch <br/> event.setId("1") <br/> event.setName("Foo") | ProprietaryDataStorage().class <br/> Event.class
--"- | &lt;market id="1" name="Mkt Foo"&gt; | Start Processor | new Market() | ProprietaryDataStorage().class <br/> Event.class <br/> Market.class (the new market)
+&lt;market id="1" name="Mkt Foo"&gt; | Start Processor | new Market() | ProprietaryDataStorage().class <br/> Event.class <br/> Market.class (the new market)
 -"- | Attribute Mappings | market.setId("1") <br/> market.setName("Mkt Foo") | ProprietaryDataStorage().class <br/> Event.class <br/> Market.class
 &lt;/market&gt; | End Processor | Get event from obj branch <br/> Pop market from obj branch <br/> event.getMarkets.add(market) | ProprietaryDataStorage().class <br/> Event.class
 &lt;/event&gt; | End Processor | Do nothing | ProprietaryDataStorage().class <br/> Event.class

@@ -24,12 +24,12 @@ public class AttributeMappingExtended<T, K> extends AttributeMapping<T, K> {
      *               (A non static method reference executed with a single argument and no return value.)
      * @param mapper Mapper method used to map the XML string to desired java type.
      *               (A static method reference executed with a two arguments and a return value.
-     *               The second argument will be of type ProtectedClassMap and contain a reference to the object branch.)
+     *               The second argument will be of type BranchContext and contain a reference to the object branch.)
      * @param fields One or several attribute name whose value shall be passed to the Mapper invocation.
      *               If no attribute names are provided the mapper and the setter will not be executed.
      *               To set values that does not depend on an attribute, use the Start or End Processor callback.
      */
-    public AttributeMappingExtended(Class<T> type, BiConsumer<T, K> setter, BiFunction<Map<String, String>, ProtectedClassMap, K> mapper, String... fields) {
+    public AttributeMappingExtended(Class<T> type, BiConsumer<T, K> setter, BiFunction<Map<String, String>, BranchContext, K> mapper, String... fields) {
         super(type, setter, null, fields);
         super.setBiMapper(mapper);
     }
