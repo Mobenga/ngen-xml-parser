@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mobenga.ngen.xml</groupId>
     <artifactId>ngen-xml-parser</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>An XML parser engineered for n-to-m mapping from XML(s) to Java Object(s).</description>
