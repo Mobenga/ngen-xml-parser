@@ -26,9 +26,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git@github.com:Mobenga/ngen-xml-parser.git</connection>
-        <developerConnection>scm:git@github.com:Mobenga/ngen-xml-parser.git</developerConnection>
-        <url>git@github.com:Mobenga/ngen-xml-parser.git</url>
+        <connection>scm:git:git://github.com/Mobenga/ngen-xml-parser.git</connection>
+        <developerConnection>scm:git:ssh://github.com-backoffice/Mobenga/ngen-xml-parser.git</developerConnection>
+        <url>https://github.com/Mobenga/ngen-xml-parser</url>
     </scm>
 
     <properties>
