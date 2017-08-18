@@ -33,6 +33,7 @@ public class XmlParser {
 
     /**
      * Creates an XML Parser instance using the specified encoding
+     *
      * @param encoding the character encoding of the stream
      */
     public XmlParser(String encoding) {
@@ -41,7 +42,8 @@ public class XmlParser {
 
     /**
      * Creates an XML Parser instance using the specified encoding
-     * @param encoding the character encoding of the stream
+     *
+     * @param encoding                  the character encoding of the stream
      * @param xmlInputFactoryProperties the properties that will be used during construction of XMLInputFactory
      */
     private XmlParser(String encoding, Map<String, Object> xmlInputFactoryProperties) {
@@ -84,31 +86,30 @@ public class XmlParser {
 
     protected XMLInputFactory buildXmlInputFactory() {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        if(xmlInputFactoryProperties != null && xmlInputFactoryProperties.size() > 0){
-            for( Map.Entry<String, Object> entry : xmlInputFactoryProperties.entrySet() ){
-                inputFactory.setProperty(entry.getKey(), entry.getValue());
-            }
+        if (xmlInputFactoryProperties != null && xmlInputFactoryProperties.size() > 0) {
+            xmlInputFactoryProperties.forEach(inputFactory::setProperty);
         }
         return inputFactory;
     }
 
-    private static class XmlParserBuilder{
+    private static class XmlParserBuilder {
         private Map<String, Object> xmlInputFactoryProperties = new HashMap<>();
         private String encoding = UTF_8;
 
-        private XmlParserBuilder(){}
+        private XmlParserBuilder() {
+        }
 
-        public XmlParserBuilder encoding(String encoding){
+        public XmlParserBuilder encoding(String encoding) {
             this.encoding = encoding;
             return this;
         }
 
-        public XmlParserBuilder addXmlInputFactoryProperty(String key, Object value){
+        public XmlParserBuilder addXmlInputFactoryProperty(String key, Object value) {
             xmlInputFactoryProperties.put(key, value);
             return this;
         }
 
-        public XmlParser build(){
+        public XmlParser build() {
             return new XmlParser(encoding, xmlInputFactoryProperties);
         }
 
